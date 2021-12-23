@@ -4,7 +4,7 @@ import sqlite3
 def conectar():
     try:
         conexion = sqlite3.connect('contactos.db')
-        print('Se ha conectado a la base de datos')
+        print(':: Se ha conectado a la base de datos ::')
         return conexion
     except sqlite3.Error as error:
         print('Ha ocurrido un error en la coneccion ', error)

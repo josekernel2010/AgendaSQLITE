@@ -1,6 +1,6 @@
 import os
 
-from  tabulate import tabulate
+from tabulate import tabulate
 
 from contacto import *
 
@@ -10,16 +10,21 @@ crear_tabla(con)
 
 #menu
 def iniciar():
+    os.system("cls")
     while True:
-
-        print('Selecione una opción:')
+        print("**************************")
+        print(':: Selecione una opción ::')
+        print('**************************')
+        print()
         print('\t1. Añadir un contacto')
         print('\t2. Mostrar todos los contactos')
         print('\t3. Buscar un contacto')
         print('\t4. Modificar un contacto')
         print('\t5. Eliminar un contacto')
         print('\t6. Salir de la aplicación')
-        opcion = input('Ingrese una opción: ')
+        print()
+        opcion = input('\t:: Ingrese una opción: ')
+
         os.system('cls')
 
         if opcion == '1':
@@ -45,23 +50,40 @@ def nuevo_contacto():
     email = input('Ingrese email: ')
     address = input('Ingrese su dirección: ')
     respuesta = registrar(nombre, apellido, empresa, telephone, email, address)
+    os.system("cls")
+    print(25*"-")
     print(respuesta)
+    print(25*"-")
+    input("presione enter para continuar... ")
+    os.system("cls")
+
 
 #funcion para mostrar todos los contactos
 def ver_contacto():
     dato = mostrar()
-    headers = ['Nombre', 'Apellido', 'Empresa', 'Telefono', 'Email', 'Dirección']
+    headers = ['Id','Nombre', 'Apellido', 'Empresa', 'Telefono', 'Email', 'Dirección']
     tabla = tabulate(dato, headers=headers, tablefmt='fancy_grid')
+    #os.system('cls')
     print(tabla)
-
+    input("presione enter para continuar... ")
+    os.system('cls')
 
 #funcion para mostrar un contacto
 def buscar_contacto():
     id = input('Ingrese el id del contacto: ')
     dato = buscar(id)
-    headers = ['id','Nombre', 'Apellido', 'Empresa', 'Telefono', 'Email', 'Dirección']
-    tabla = tabulate(dato, headers=headers, tablefmt='fancy_grid')
-    print(tabla)
+    if dato != []:
+        headers = ['id','Nombre', 'Apellido', 'Empresa', 'Telefono', 'Email', 'Dirección']
+        tabla = tabulate(dato,headers=headers, tablefmt='fancy_grid')
+        print(tabla)
+        input("presione enter para continuar... ")
+        os.system('cls')
+    else:
+        print("----------------------------")
+        print(":: El contacto no esxiste ::")
+        print("----------------------------")
+        input("presione enter para continuar... ")
+        os.system('cls')
 
 
 #funcion por medio de id para mostrar un contacto
@@ -73,27 +95,56 @@ def buscar(id):
         cursor.execute('''SELECT * FROM contacto WHERE id =?''', (id,))
         datos = cursor.fetchall()
         con.close()
-        print(datos)
+
     except sqlite3.Error as error:
         print("Ha ocurrido un error: ",error)
     return datos
 
 def modificar_contacto():
     id = input('Ingrese el id del contacto: ')
-    nombre = input('Ingrese el nombre: ')
-    apellido = input('Ingrese el apellido: ')
-    empresa = input('Ingrese la empresa: ')
-    telephone = input('Ingrese el telefono: ')
-    email = input('Ingrese email: ')
-    address = input('Ingrese su dirección: ')
-    respuesta = modificar(id, nombre, apellido, empresa, telephone, email, address)
-    print(respuesta)
+    if buscar(id) == []:
+        print("------------------------------------")
+        print("El contacto a modificar no existe...")
+        print("------------------------------------")
+        input("presione enter para salir...")
+        os.system("cls")
+    else:
+        print()
+        nombre = input('\tIngrese el nombre: ')
+        apellido = input('\tIngrese el apellido: ')
+        empresa = input('\tIngrese la empresa: ')
+        telephone = input('\tIngrese el telefono: ')
+        email = input('\tIngrese email: ')
+        address = input('\tIngrese su dirección: ')
+        respuesta = modificar(id, nombre, apellido, empresa, telephone, email, address)
+        os.system("cls")
+        print(len(respuesta)*"-")
+        print(respuesta)
+        print(len(respuesta) * "-")
+        input("presione enter para continuar... ")
+        os.system('cls')
 
 def eliminar_contacto():
     id = input('Ingrese el id del contacto: ')
-    respuesta = eliminar(id)
-    print(respuesta)
-    
+    dato = buscar(id)
+    if dato == []:
+        print("------------------------------------")
+        print("El contacto a eliminar no existe...")
+        print("------------------------------------")
+        input("presione enter para salir...")
+        os.system("cls")
+
+    os.system("cls")
+
+    if dato != []:
+        respuesta = eliminar(id)
+        print(len(respuesta)*"-")
+        print(respuesta)
+        print(len(respuesta) * "-")
+        input("presione enter para salir...")
+        os.system("cls")
+
+
 
 if __name__ == '__main__':
     iniciar()

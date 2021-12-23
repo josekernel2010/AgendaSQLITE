@@ -13,7 +13,7 @@ def registrar(nombre, apellido, empresa, telephone, email, address):
         cursor.execute(sentencia_sql, datos)
         con.commit()
         con.close()
-        return 'Registro correcto'
+        return '::: Registro correcto :::'
     except sqlite3.Error as error:
         print('Ha ocurrido un error al registrar ', error)
 
@@ -42,11 +42,11 @@ def modificar(id,nombre, apellido, empresa, telephone, email, address):
         cursor.execute(sentencia_sql, datos)
         con.commit()
         con.close()
-        return 'Modificacion correcta'
+        return f'Modificación correcta del id = {id}'
 
     except sqlite3.Error as error:
         print('Error al modificar los contactos ', error)
-    pass
+
 
 def eliminar(id):
     try:
@@ -56,6 +56,6 @@ def eliminar(id):
         cursor.execute(sentencia_sql, (id,))
         con.commit()
         con.close()
-        return 'Eliminacion correcta'
+        return ':: Eliminacion correcta ::'
     except sqlite3.Error as error:
         print('Error al eliminar los contactos ', error)
