@@ -1,5 +1,5 @@
 import os
-
+import pyfiglet
 from tabulate import tabulate
 
 from contacto import *
@@ -12,6 +12,9 @@ crear_tabla(con)
 def iniciar():
     os.system("cls")
     while True:
+        titulo = 'Agenda'
+        a = pyfiglet.figlet_format(titulo)
+        print(a)
         print("**************************")
         print(':: Selecione una opción ::')
         print('**************************')
@@ -41,7 +44,7 @@ def iniciar():
             break
 
 
-#creacion de contacto nuevo
+# 1. creacion de contacto nuevo
 def nuevo_contacto():
     nombre = input('Ingrese el nombre: ')
     apellido = input('Ingrese el apellido: ')
@@ -58,7 +61,7 @@ def nuevo_contacto():
     os.system("cls")
 
 
-#funcion para mostrar todos los contactos
+# 2. funcion para mostrar todos los contactos
 def ver_contacto():
     dato = mostrar()
     headers = ['Id','Nombre', 'Apellido', 'Empresa', 'Telefono', 'Email', 'Dirección']
@@ -85,6 +88,21 @@ def buscar_contacto():
         input("presione enter para continuar... ")
         os.system('cls')
 
+def mostrar_contacto(id):
+    dato = buscar(id)
+    if dato != []:
+        headers = ['id', 'Nombre', 'Apellido', 'Empresa', 'Telefono', 'Email', 'Dirección']
+        tabla = tabulate(dato, headers=headers, tablefmt='fancy_grid')
+        print(tabla)
+
+
+
+
+
+
+
+
+
 
 #funcion por medio de id para mostrar un contacto
 def buscar(id):
@@ -109,6 +127,7 @@ def modificar_contacto():
         input("presione enter para salir...")
         os.system("cls")
     else:
+        mostrar_contacto(id)
         print()
         nombre = input('\tIngrese el nombre: ')
         apellido = input('\tIngrese el apellido: ')
